@@ -19,6 +19,7 @@ function Header({ activePage, onPageChange }) {
           <label class="btn btn-outline-primary" for="btnradio2">Search</label>
         </div>
       </div>
+      <hr className='horizontal-line'/>
     </div>
   )
 }
