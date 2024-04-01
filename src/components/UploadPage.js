@@ -5,19 +5,6 @@ function UploadPage() {
       <div>
         <div class="row g-3 align-items-center">
           <div class="col-auto">
-            <label for="titleInput" class="col-form-label">Recipe Title</label>
-          </div>
-          <div class="col-auto">
-            <input type="text" id="titleInput" class="form-control" aria-describedby="titleHelpInline" placeholder="e.g. Brownies" />
-          </div>
-          <div class="col-auto">
-            <span id="titleHelpInline" class="form-text" style={{color: 'white'}}>
-              Must not be empty.
-            </span>
-          </div>
-        </div>
-        <div class="row g-3 align-items-center">
-          <div class="col-auto">
             <label for="emailInput" class="col-form-label">Email</label>
           </div>
           <div class="col-auto">
@@ -26,6 +13,19 @@ function UploadPage() {
           <div class="col-auto">
             <span id="emailHelpInline" class="form-text" style={{color: 'white'}}>
 
+            </span>
+          </div>
+        </div>
+        <div class="row g-3 align-items-center">
+          <div class="col-auto">
+            <label for="titleInput" class="col-form-label">Recipe Title</label>
+          </div>
+          <div class="col-auto">
+            <input type="text" id="titleInput" class="form-control" aria-describedby="titleHelpInline" placeholder="e.g. Brownies" />
+          </div>
+          <div class="col-auto">
+            <span id="titleHelpInline" class="form-text" style={{color: 'white'}}>
+              Must not be empty.
             </span>
           </div>
         </div>
@@ -79,7 +79,7 @@ function UploadPage() {
           <button type="submit" className="btn btn-primary mb-3">Post</button>
         </div>
         <div className="col-auto">
-          <button type="submit" className="btn btn-primary mb-3">Clear User's Posts</button>
+          <button type="submit" className="btn btn-primary mb-3">Delete User's Posts</button>
         </div>
       </div>
     </div>

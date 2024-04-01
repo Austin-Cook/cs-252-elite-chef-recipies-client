@@ -1,8 +1,21 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Communication with the Server
 
-## Available Scripts
+request = {
+    type
+}
+
+const results = {
+  status: int,
+  author: String,
+  title: String,
+  description: String,
+}
+
+
+
+## Running the Client
 
 In the project directory, you can run:
 
