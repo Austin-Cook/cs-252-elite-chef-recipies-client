@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
-import { serverHost, serverPort, EMAIL, TITLE, TAG1, TAG2, TAG3, DESCRIPTION } from "../settings"
+import { SERVER_HOST, SERVER_PORT, EMAIL, TITLE, TAG1, TAG2, TAG3, DESCRIPTION } from "../settings"
 
 function UploadPage() {
   const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ function UploadPage() {
 
   const postRecipe = async () => {
     let status = 0;
-    const uri = serverHost + ':' + serverPort + "/recipe"
+    const uri = SERVER_HOST + ':' + SERVER_PORT + "/recipe"
     await fetch(uri, {
       method: 'POST',
       body: JSON.stringify({
@@ -51,7 +51,26 @@ function UploadPage() {
     .catch((err) => displayError(err.message));
   };
 
-  const handleSubmit = () => {
+  const deleteRecipies = async () => {
+    let status = 0;
+    const uri = SERVER_HOST + ':' + SERVER_PORT + "/recipe?" + new URLSearchParams({[EMAIL]: formData.emailValue});
+    await fetch(uri, {
+      method: 'DELETE'
+    })
+    .then((response) => {
+      status = response.status;
+      return response.json()
+    })
+    .then((data) => {
+      if (status === 200)
+        displaySuccess(data.message);
+      else
+        displayError(data.message);
+    })
+    .catch((err) => displayError(err.message));
+  }
+
+  const handlePost = () => {
     if (formData.emailValue === "") {
       displayWarning("Email field can't be empty");
       return;
@@ -65,6 +84,15 @@ function UploadPage() {
 
     postRecipe();
   };
+
+  const handleDelete = () => {
+    if (formData.emailValue === "") {
+      displayWarning("Email field can't be empty");
+      return;
+    }
+
+    deleteRecipies();
+  }
 
   const displaySuccess = (message="empty message") => {
     toast.success(message, {
@@ -184,13 +212,13 @@ function UploadPage() {
 ⅓ cup margarine, melted"></textarea>
         </div>
         <div className="col-auto">
-          <button className="btn btn-primary mb-3" onClick={handleSubmit}>Post</button>
+          <button className="btn btn-primary mb-3" onClick={handlePost}>Post</button>
         </div>
         <div className="col-auto">
-          <button className="btn btn-primary mb-3">Delete User's Posts</button>
+          <button className="btn btn-primary mb-3" onClick={handleDelete}>Delete User's Posts</button>
         </div>
       </div>
-      <ToastContainer theme="dark" />
+      <ToastContainer />
     </div>
   );
 }
