@@ -22,7 +22,7 @@ function UploadPage() {
   }
 
   const postRecipe = async () => {
-    // let status = 0;
+    let status = 0;
     const uri = serverHost + ':' + serverPort + "/recipe"
     await fetch(uri, {
       method: 'POST',
@@ -38,29 +38,20 @@ function UploadPage() {
         'Content-Type': 'application/json; charset=UTF-8'
       }
     })
-    .then((response) => response.json())
+    .then((response) => {
+      status = response.status;
+      return response.json()
+    })
     .then((data) => {
-      displaySuccess(data.message);
+      if (status === 200)
+        displaySuccess(data.message);
+      else
+        displayError(data.message);
     })
     .catch((err) => displayError(err.message));
-    // .then((response) => {
-    //   displayError("hi");
-    //   status = response.status;
-    //   return response.json();
-    // })
-    // .then((data) => {
-    //   displaySuccess("hi");
-    //   if (status === 200)
-    //     displaySuccess(data.message);
-    //   else
-    //     displayError(data.message);
-    // })
-    // .catch((err) => {
-    //   displayError(err.message);
-    // });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     if (formData.emailValue === "") {
       displayWarning("Email field can't be empty");
       return;
