@@ -2,7 +2,7 @@ import Header from './components/Header.js'
 import SearchPage from './components/SearchPage.js'
 import UploadPage from './components/UploadPage.js'
 import { useState } from 'react';
-import { PAGE } from './resources/constants';
+import { PAGE } from './settings';
 
 function Page({ pageType }) {
   if (pageType === PAGE.UPLOAD)

@@ -1,7 +1,7 @@
 import WaitingPage from "./results/WaitingPage"
 import FoundPage from "./results/FoundPage"
 import ErrorPage from "./results/ErrorPage"
-import { RESULTSTATUS } from "../resources/constants";
+import { RESULTSTATUS } from "../settings";
 import { useState } from "react";
 
 const defaultError = "Unknown Error"

@@ -1,4 +1,4 @@
-import { PAGE } from '../resources/constants.js'
+import { PAGE } from '../settings'
 
 function Header({ activePage, onPageChange }) {
   const handleButtonClick = (pageType) => {
