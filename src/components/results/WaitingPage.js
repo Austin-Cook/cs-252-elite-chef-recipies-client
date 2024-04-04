@@ -1,7 +1,7 @@
-function WaitingPage() {
+function WaitingPage({text}) {
     return (
       <div>
-        <p>Type in a word, and press 'Search'</p>
+        <p>{text}</p>
       </div>
     );
   }

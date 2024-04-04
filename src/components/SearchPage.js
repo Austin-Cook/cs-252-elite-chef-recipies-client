@@ -1,27 +1,23 @@
 import WaitingPage from "./results/WaitingPage"
 import FoundPage from "./results/FoundPage"
-import ErrorPage from "./results/ErrorPage"
-import { RESULTDISPLAY, QUERY, SERVER_HOST, SERVER_PORT } from "../settings";
+import { RESULTDISPLAY, QUERY, SERVER_HOST, SERVER_PORT, EMAIL, TITLE, DESCRIPTION } from "../settings";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useState } from "react";
-
-const defaultError = "Unknown Error"
 
 
 function SearchPage() {
   function ResultDisplay() {
-    if (resultDisplay === RESULTDISPLAY.WAITING)
-      return <WaitingPage />
-    else if (resultDisplay === RESULTDISPLAY.FOUND)
-      return <FoundPage />
-    return <ErrorPage errormsg={error} />
+    if (resultDisplay === RESULTDISPLAY.FOUND)
+      return <FoundPage queryResult={queryResult} />
+    return <WaitingPage text={waitingPageText} />
   }
 
-  const [error, setError] = useState(defaultError);
   const [resultDisplay, setResultDisplay] = useState(RESULTDISPLAY.WAITING);
   const [query, setQuery] = useState("");
+  const [waitingPageText, setWaitingPageText] = useState("Type in a word, and press 'Search'")
+  const [queryResult, setQueryResult] = useState(null)
 
-  const handleChange = (event) => {
+  const handleQueryChange = (event) => {
     setQuery(event.target.value);
   }
 
@@ -49,12 +45,33 @@ function SearchPage() {
       return response.json()
     })
     .then((data) => {
-      if (status === 200)
+      if (status === 200) {
         displaySuccess(data.message);
-      else
-        displayError(data.message);
+        if (!data[EMAIL]) {
+          displayError("Response missing field: " + EMAIL);
+          return;
+        }
+        if (!data[TITLE]) {
+          displayError("Response missing field: " + TITLE);
+          return;
+        }
+        if (!data[DESCRIPTION]) {
+          displayError("Response missing field: " + DESCRIPTION);
+          return;
+        }
+        setQueryResult(data)
+        setResultDisplay(RESULTDISPLAY.FOUND);
+      }
+      else {
+        displayWarning(data.message);
+        setWaitingPageText("No matches");
+        setResultDisplay(RESULTDISPLAY.WAITING);
+      }
     })
-    .catch((err) => displayError(err.message));
+    .catch((err) => {
+      displayError(err.message)
+      setResultDisplay(RESULTDISPLAY.WAITING);
+    });
   };
 
   const displaySuccess = (message="empty message") => {
@@ -103,7 +120,7 @@ function SearchPage() {
     <div className="page ">
       <div className="flex-row">
         <div className="little-padding-right">
-          <input type="text" id="titleInput" value={query} onChange={handleChange}  class="form-control" aria-describedby="titleHelpInline" placeholder="e.g. Pizza" />
+          <input type="text" id="titleInput" value={query} onChange={handleQueryChange}  class="form-control" aria-describedby="titleHelpInline" placeholder="e.g. Pizza" />
         </div>
         <div className="little-padding-right">
           <button for="titleInput" onClick={handleSearch} className="btn btn-primary mb-3">Search</button>
