@@ -1,8 +1,10 @@
+import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+
 import WaitingPage from "./results/WaitingPage"
 import FoundPage from "./results/FoundPage"
+import { displaySuccess, displayWarning, displayError } from "../util/util.js"
 import { RESULTDISPLAY, QUERY, SERVER_HOST, SERVER_PORT, EMAIL, TITLE, DESCRIPTION } from "../settings";
-import { ToastContainer, toast, Bounce } from "react-toastify";
-import { useState } from "react";
 
 
 function SearchPage() {
@@ -72,48 +74,6 @@ function SearchPage() {
       displayError(err.message)
       setResultDisplay(RESULTDISPLAY.WAITING);
     });
-  };
-
-  const displaySuccess = (message="empty message") => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-      });
-  };
-
-  const displayWarning = (message="empty message") => {
-    toast.warn(message, {
-      position: "top-right",
-      autoClose: 10000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-      });
-  };
-
-  const displayError = (message="empty message") => {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 10000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-      });
   };
 
   return (

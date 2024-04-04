@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css"
 import { SERVER_HOST, SERVER_PORT, EMAIL, TITLE, TAG1, TAG2, TAG3, DESCRIPTION } from "../settings"
+import { displaySuccess, displayWarning, displayError } from "../util/util.js"
+
 
 function UploadPage() {
   const [formData, setFormData] = useState({
@@ -19,6 +22,30 @@ function UploadPage() {
       ...prevState,
       [name]: value
     }))
+  }
+
+  const handlePost = () => {
+    if (formData.emailValue === "") {
+      displayWarning("Email field can't be empty");
+      return;
+    } else if (formData.titleValue === "") {
+      displayWarning("Title field can't be empty");
+      return;
+    } else if (formData.descriptionValue === "") {
+      displayWarning("Description field can't be empty");
+      return;
+    }
+
+    postRecipe();
+  };
+
+  const handleDelete = () => {
+    if (formData.emailValue === "") {
+      displayWarning("Email field can't be empty");
+      return;
+    }
+
+    deleteRecipies();
   }
 
   const postRecipe = async () => {
@@ -70,72 +97,6 @@ function UploadPage() {
     .catch((err) => displayError(err.message));
   }
 
-  const handlePost = () => {
-    if (formData.emailValue === "") {
-      displayWarning("Email field can't be empty");
-      return;
-    } else if (formData.titleValue === "") {
-      displayWarning("Title field can't be empty");
-      return;
-    } else if (formData.descriptionValue === "") {
-      displayWarning("Description field can't be empty");
-      return;
-    }
-
-    postRecipe();
-  };
-
-  const handleDelete = () => {
-    if (formData.emailValue === "") {
-      displayWarning("Email field can't be empty");
-      return;
-    }
-
-    deleteRecipies();
-  }
-
-  const displaySuccess = (message="empty message") => {
-    toast.success(message, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-      });
-  };
-
-  const displayWarning = (message="empty message") => {
-    toast.warn(message, {
-      position: "top-right",
-      autoClose: 10000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-      });
-  };
-
-  const displayError = (message="empty message") => {
-    toast.error(message, {
-      position: "top-right",
-      autoClose: 10000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-      transition: Bounce,
-      });
-  };
-
   return (
     <div className="page">
       <div>
@@ -146,11 +107,6 @@ function UploadPage() {
           <div class="col-auto">
             <input type="text" id="emailInput" name="emailValue" value={formData.emailValue} onChange={handleChange} class="form-control" aria-describedby="emailHelpInline" placeholder="baker123@gmail.com" />
           </div>
-          <div class="col-auto">
-            <span id="emailHelpInline" class="form-text" style={{color: 'white'}}>
-
-            </span>
-          </div>
         </div>
         <div class="row g-3 align-items-center">
           <div class="col-auto">
@@ -158,11 +114,6 @@ function UploadPage() {
           </div>
           <div class="col-auto">
             <input type="text" id="titleInput" name="titleValue" value={formData.titleValue} onChange={handleChange} class="form-control" aria-describedby="titleHelpInline" placeholder="Brownies" />
-          </div>
-          <div class="col-auto">
-            <span id="titleHelpInline" class="form-text" style={{color: 'white'}}>
-
-            </span>
           </div>
         </div>
         <div class="row g-3 align-items-center">
@@ -206,10 +157,7 @@ function UploadPage() {
         </div>
         <div className="mb-3">
           <label for="descriptionTextarea" className="form-label">Description and Instructions</label>
-          <textarea className="form-control" id="descriptionTextarea" name="descriptionValue" value={formData.descriptionValue} onChange={handleChange} style={{height: 'auto'}} rows="3"  placeholder="Ingredients
-1 cup warm milk (110 degrees F/45 degrees C)
-2 eggs, room temperature
-⅓ cup margarine, melted"></textarea>
+          <textarea className="form-control" id="descriptionTextarea" name="descriptionValue" value={formData.descriptionValue} onChange={handleChange} style={{height: 'auto'}} rows="3"  placeholder="Ingredients..."></textarea>
         </div>
         <div className="col-auto">
           <button className="btn btn-primary mb-3" onClick={handlePost}>Post</button>
