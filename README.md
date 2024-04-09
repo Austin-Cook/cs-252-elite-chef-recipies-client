@@ -2,18 +2,6 @@
 
 ## Communication with the Server
 
-request = {
-    type
-}
-
-const results = {
-  status: int,
-  author: String,
-  title: String,
-  description: String,
-}
-
-
 
 ## Running the Client
 

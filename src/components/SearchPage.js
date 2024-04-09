@@ -20,7 +20,7 @@ function SearchPage() {
   const [queryResult, setQueryResult] = useState(null)
 
   const handleQueryChange = (event) => {
-    setQuery(event.target.value);
+    setQuery(event.target.value.trim());
   }
 
   const handleSearch = () => {

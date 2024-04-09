@@ -17,7 +17,10 @@ function UploadPage() {
   })
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    let { name, value } = event.target;
+    if (name === "emailValue" || name === "tag1Value"
+        || name === "tag2Value" || name === "tag3Value")
+      value = value.trim();
     setFormData(prevState => ({
       ...prevState,
       [name]: value
