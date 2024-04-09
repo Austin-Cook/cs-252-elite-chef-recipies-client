@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from './components/Header.js'
+import SearchPage from './components/SearchPage.js'
+import UploadPage from './components/UploadPage.js'
+import { useState } from 'react';
+import { PAGE } from './settings';
+
+function Page({ pageType }) {
+  if (pageType === PAGE.UPLOAD)
+    return <UploadPage />
+  return <SearchPage />
+}
 
 function App() {
+  const [activePage, setActivePage] = useState(PAGE.UPLOAD);
+
+  const handlePageChange = (newPage) => {
+    setActivePage(newPage);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='all'>
+      <Header activePage={activePage} onPageChange={handlePageChange} />
+      <Page pageType={activePage}/>
     </div>
   );
 }
